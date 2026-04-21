@@ -20,7 +20,7 @@ public class ReportGenerator {
     private static final DateTimeFormatter DISPLAY_FMT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    private static final int BAR_WIDTH = 40; // max bar length in characters
+    private static final int BAR_WIDTH = 40; 
 
     private final Path reportsDir;
 
@@ -73,7 +73,6 @@ public class ReportGenerator {
             else uncertain++;
         }
 
-        // Write report
         try (PrintWriter w = new PrintWriter(new FileWriter(reportPath.toFile()))) {
             line(w, "=", 60);
             w.println("  ETHICSAITOOL — DETECTION REPORT");
