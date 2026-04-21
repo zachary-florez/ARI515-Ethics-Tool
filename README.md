@@ -1,4 +1,4 @@
-# EthicsAITool 🛰️
+# ARI515-Ethics-Tool
 
 A Java-based detection platform that identifies AI-generated satellite imagery using a TensorFlow machine learning 
 pipeline alongside with LLM-based analysis.
@@ -187,7 +187,3 @@ All thresholds are configurable at the top of `Main.java`:
 ## Project Structure Notes
 
 Training is done entirely in Python (`scripts/train_model.py`) and exported as a TensorFlow SavedModel. The Java side only performs inference — it never trains. This is by design since the TF Java 1.1.0 API does not support building or training CNN graphs from scratch.
-
----
-
-# ARI515-Ethics-Tool
