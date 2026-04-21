@@ -16,7 +16,6 @@ public class ImageProcessor {
     private final int targetHeight;
 
     static {
-        // Load OpenCV native library
         nu.pattern.OpenCV.loadLocally();
     }
 
@@ -31,11 +30,9 @@ public class ImageProcessor {
             throw new RuntimeException("Failed to load image: " + imagePath);
         }
 
-        // Resize
         Mat resized = new Mat();
         Imgproc.resize(original, resized, new Size(targetWidth, targetHeight));
 
-        // Normalize to [0, 1]
         Mat normalized = new Mat();
         resized.convertTo(normalized, CvType.CV_32FC3, 1.0/255.0);
 
@@ -43,26 +40,21 @@ public class ImageProcessor {
     }
 
     public float[] extractFeatures(Mat image) {
-        // Extract statistical features for traditional ML (as baseline)
         float[] features = new float[9];
 
-        // Split channels
         Mat[] channels = new Mat[3];
         Core.split(image, Arrays.asList(channels));
 
         for (int c = 0; c < 3; c++) {
             Mat channel = channels[c];
 
-            // Mean
             Scalar mean = Core.mean(channel);
             features[c * 3] = (float) mean.val[0];
 
-            // Standard deviation
             MatOfDouble stdDev = new MatOfDouble();
             Core.meanStdDev(channel, new MatOfDouble(), stdDev);
             features[c * 3 + 1] = (float) stdDev.toArray()[0];
 
-            // Entropy (simplified - you'd implement proper entropy calculation)
             features[c * 3 + 2] = calculateEntropy(channel);
         }
 
