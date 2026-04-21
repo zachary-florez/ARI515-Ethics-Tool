@@ -42,16 +42,13 @@ public class SatelliteImageFetcher {
     public RealWorldDetectionResult analyzeNASAEpicImage() throws IOException {
         logger.info("Fetching latest NASA EPIC satellite image...");
 
-        // Step 1 — Get metadata for the latest image
         String metadataUrl = "https://epic.gsfc.nasa.gov/api/natural";
         String metadataJson = fetchText(metadataUrl);
 
-        // Parse the first image filename from JSON (simple string parsing to avoid extra deps)
         String filename = extractJsonField(metadataJson, "image");
-        String date     = extractJsonField(metadataJson, "date"); // format: "2024-01-15 00:00:00"
-        String datePath = date.substring(0, 10).replace("-", "/"); // → "2024/01/15"
+        String date     = extractJsonField(metadataJson, "date"); 
+        String datePath = date.substring(0, 10).replace("-", "/"); 
 
-        // Step 2 — Build the image URL
         String imageUrl = String.format(
                 "https://epic.gsfc.nasa.gov/archive/natural/%s/png/%s.png",
                 datePath, filename);
@@ -116,7 +113,6 @@ public class SatelliteImageFetcher {
     private Path downloadImage(String url, String cacheName) throws IOException {
         Path cachedPath = cacheDir.resolve(cacheName);
 
-        // Return cached version if already downloaded
         if (Files.exists(cachedPath)) {
             logger.info("Using cached image: {}", cachedPath);
             return cachedPath;
@@ -140,9 +136,6 @@ public class SatelliteImageFetcher {
         return cachedPath;
     }
 
-    /**
-     * Fetches a URL as plain text (for JSON API responses).
-     */
     private String fetchText(String url) throws IOException {
         Request request = new Request.Builder().url(url).build();
         try (Response response = httpClient.newCall(request).execute()) {
@@ -153,10 +146,6 @@ public class SatelliteImageFetcher {
         }
     }
 
-    /**
-     * Minimal JSON field extractor — pulls the first value for a given key.
-     * Avoids adding a JSON dependency just for this.
-     */
     private String extractJsonField(String json, String key) {
         String search = "\"" + key + "\":\"";
         int start = json.indexOf(search);
@@ -178,10 +167,6 @@ public class SatelliteImageFetcher {
         }
         logger.info("========================");
     }
-
-    // -------------------------------------------------------------------------
-    // Result class
-    // -------------------------------------------------------------------------
 
     public static class RealWorldDetectionResult {
         private final String imageName;
