@@ -52,8 +52,8 @@ EthicsAITool provides a software framework that:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/<your-username>/EthicsAITool.git
-cd EthicsAITool
+git clone https://github.com/<your-username>/ARI515-Ethics-Tool
+cd ARI515-Ethics-Tool
 ```
 
 ### 2. Set up the Python virtual environment
